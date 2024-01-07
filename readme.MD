@@ -1,7 +1,8 @@
 
+## go to the express demo folder
 
 ```bash
-cd express-mongoose
+cd express-demo
 ```
 
 ## install npm packages
