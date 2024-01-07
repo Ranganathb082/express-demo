@@ -1,6 +1,4 @@
-# go to directory
 
-go to express-mongoose folder
 
 ```bash
 cd express-mongoose
