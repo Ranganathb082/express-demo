@@ -1,65 +1,18 @@
-// const express = require("express");
-// const { path } = require("express/lib/application");
-// const mongoose = require("mongoose");
-
-
-
-// const app = express();
-
-
-// app.set('view engine', 'ejs');
-
-// // Set the directory for views
-// app.set('views', __dirname + '/views');
-
-
-// mongoose.connect("mongodb://localhost:27017/crud");
-
-// const UserSchema = mongoose.Schema({
-//   name: String,
-//   age: Number,
-// });
-
-// const UserModel = mongoose.model("user", UserSchema);
-
-// app.get("/getUsers", (req, res) => {
-//   UserModel.find({})
-//     .then(function (users) {
-//       res.json(users);
-//     })
-//     .catch(function (err) {
-//       console.log(err);
-//     });
-// });
-
-// app.get("/", (req, res) => {
-//     res.render("index", {
-//       title: "Express EJS Example",
-//       message: "Welcome to Express with EJS!",
-//     });
-//   });
-
-// app.listen(3001, () => {
-//   console.log("Listening to the port 3001");
-// });
-
-
-
-
 const express = require("express");
 const mongoose = require("mongoose");
-// const ProductModel = require("./models/product");
 
 const app = express();
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
 
-app.set('view engine', 'ejs');
-app.set('views', __dirname + '/views');
-
-mongoose.connect("mongodb://localhost:27017/inventory", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost:27017/inventory", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // Define Product Schema and Model (similar to User in the previous example)
 
@@ -82,14 +35,15 @@ const ProductModel = mongoose.model("Product", productSchema);
 // Handle POST request for adding a new product
 app.post("/addProduct", (req, res) => {
   const { name, price } = req.body;
-  console.log(name,price)
+  console.log(name, price);
 
   const newProduct = new ProductModel({
     name,
     price,
   });
 
-  newProduct.save()
+  newProduct
+    .save()
     .then((product) => {
       console.log(`Product saved: ${product}`);
       res.redirect("/viewProducts"); // Redirect to the viewProducts page after successful addition
@@ -116,7 +70,6 @@ app.get("/viewProducts", (req, res) => {
       res.status(500).send("Internal Server Error");
     });
 });
-
 
 // Handle POST request for updating a product
 app.post("/updateProduct", (req, res) => {
@@ -152,7 +105,6 @@ app.post("/deleteProduct", (req, res) => {
     });
 });
 
-
 // Home Page
 app.get("/", (req, res) => {
   res.render("home", {
@@ -179,4 +131,3 @@ app.get("/deleteProduct1", (req, res) => {
 app.listen(3001, () => {
   console.log("Listening to the port 3001");
 });
-
